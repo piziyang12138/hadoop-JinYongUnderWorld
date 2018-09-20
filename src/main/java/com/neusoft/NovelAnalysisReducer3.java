@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NovelAnalysisReducer3 extends Reducer<Text, Text,Text, Text> {
+    int index = 0;
     @Override
     protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
         String nameList = "";
@@ -21,7 +22,8 @@ public class NovelAnalysisReducer3 extends Reducer<Text, Text,Text, Text> {
                 count += Double.parseDouble(t);
             }
         }
-        context.write(key,new Text(String.valueOf(count) + nameList));
+        index++;
+        context.write(new Text(index+"$"+key.toString()),new Text(String.valueOf(count) + nameList));
     }
 
 

@@ -25,10 +25,7 @@ public class NovelAnalysisMapper extends Mapper<LongWritable, Text,Text, NullWri
         BufferedReader br = new BufferedReader(new FileReader(nameList));
         String nameline;
         while((nameline = br.readLine()) != null){
-//            String[] names = nameline.split("、");
-//            for (String name:names){
                 DicLibrary.insert(DicLibrary.DEFAULT,nameline);
-//            }
         }
     }
 

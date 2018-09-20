@@ -18,7 +18,7 @@ import java.util.Map;
 public class GephiUtil {
     @Test
     public void geph4j() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("output5/Data10/part-r-00000"));
+        BufferedReader br = new BufferedReader(new FileReader("last_result.txt"));
         Gexf gexf = new GexfImpl();
         Calendar date = Calendar.getInstance();
 
@@ -58,7 +58,7 @@ public class GephiUtil {
                         .addValue(attIndegree, String.valueOf(PR));
                 node_map.put(name,node);
             }else{
-                node.getAttributeValues().addValue(attIndegree,String.valueOf(PR));
+                node.getAttributeValues().addValue(attIndegree,String.valueOf(PR)).addValue(attUrl, label);
             }
             String nameList = line.substring(index_j+1);
             for (String namePair:nameList.split(";")){
@@ -67,12 +67,14 @@ public class GephiUtil {
                 if (name_node == null){
                     index++;
                     name_node = graph.createNode(String.valueOf(index));
-                    name_node.setLabel(name_value_pair[0])
-                            .getAttributeValues()
-                            .addValue(attUrl, label);
+                    name_node.setLabel(name_value_pair[0]);
                     node_map.put(name_value_pair[0],name_node);
                     edge_index++;
-                    node.connectTo(String.valueOf(edge_index), name_node).setWeight(Float.parseFloat(name_value_pair[1]));
+                    try {
+                        node.connectTo(String.valueOf(edge_index), name_node).setWeight(Float.parseFloat(name_value_pair[1]));
+                    }catch (Exception e){
+                        System.out.println(edge_index+"----------"+label +name);
+                    }
                 }else{
                     edge_index++;
                     node.connectTo(String.valueOf(edge_index), name_node).setWeight(Float.parseFloat(name_value_pair[1]));

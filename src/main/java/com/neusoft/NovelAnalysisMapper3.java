@@ -12,6 +12,10 @@ public class NovelAnalysisMapper3 extends Mapper<LongWritable, Text,Text, Text> 
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String line = value.toString();
+        int index_dollar = line.indexOf("$");
+        if (index_dollar != -1){
+            line = line.substring(index_dollar+1);
+        }
         int index_t = line.indexOf("\t");
         int index_j = line.indexOf("#");
         double PR = Double.parseDouble(line.substring(index_t+1,index_j));
